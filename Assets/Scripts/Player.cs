@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
     private bool isMoving = false;
     private Tilemap[] tileMaps;
     private BoxCollider2D boxCollider;
+    private Animator animator;
+    private bool isDragging = false;
+    private List<Vector2Int> cellPositions;
+    private Vector3Int prevCellPosition;
 
     // Start is called before the first frame update
     void Start()
@@ -25,13 +29,13 @@ public class Player : MonoBehaviour
 
         // TODO: likely want some sort of GameManger / Game object, which keeps track the grid.
         // In that case just reference Game.instance.playerGrid.
+
+        // Keep track of necessary components.
         unitGrid = GameObject.Find("UnitGrid").GetComponent<Grid>();
-
         gridBoxes = new List<GameObject>();
-
         tileMaps = FindObjectsOfType<Tilemap>();
-
         boxCollider = GetComponent<BoxCollider2D>();
+        animator = GetComponent<Animator>();
 
     }
 
@@ -39,28 +43,68 @@ public class Player : MonoBehaviour
     void Update()
     {
 
-        // If just clicked on this object, set selected = true
-
-        // If selected, draw a box over whichever cell mouse is hovering over
-
-
-
-        // movement coroutine - step towards the other cell
-
-
-    }
-
-    private void OnMouseDown()
-    {
-        // TODO: likely won't work for touch input
-
+        // Mouse input section.
         if (isMoving) return;
-        gridBox.SetActive(true);
 
-        // Start showing all movement gridBoxes
-        foreach (GameObject gridBox in gridBoxes)
+        // Check if just clicked on this object
+        if (Input.GetMouseButtonDown(0))
         {
-            gridBox.SetActive(true);
+
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            if (boxCollider.OverlapPoint(mousePosition))
+            {
+                // isDragging tells this to later check if user releases mouse to signal movement.
+                isDragging = true;
+                gridBox.SetActive(true);
+                foreach (GameObject gridBox in gridBoxes)
+                {
+                    gridBox.SetActive(true);
+                }
+
+            }
+            else
+            {
+
+                foreach (GameObject gridBox in gridBoxes)
+                {
+                    gridBox.SetActive(false);
+                }
+
+            }
+
+        }
+
+        // If user just clicked right-mouse, cancel any movement.
+        if (Input.GetMouseButtonDown(1))
+        {
+
+            isDragging = false;
+            // Stop showing the gridbox.
+            gridBox.SetActive(false);
+
+        }
+
+        // Show the gridbox if the mouse is being dragged.
+        if (!isDragging) return;
+
+        // Draw gridBox at cursor
+        Vector3 screenPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f);
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
+
+        // Converting to cell and then back should yield something grid-aligned.
+        Vector3Int cellPosition = unitGrid.WorldToCell(worldPosition);
+        if (cellPosition != prevCellPosition)
+        {
+            if (this.cellPositions == null || this.cellPositions.Contains((Vector2Int)cellPosition))
+            {
+                prevCellPosition = cellPosition;
+                worldPosition = unitGrid.CellToWorld(cellPosition);
+
+                // Set transform of gridbox
+                gridBox.transform.position = worldPosition;
+
+            }
+
         }
 
     }
@@ -68,6 +112,12 @@ public class Player : MonoBehaviour
     private void OnMouseUp()
     {
         if (isMoving) return;
+
+        // Return if player cancelled the move to this position.
+        if (!isDragging) return;
+        isDragging = false;
+
+        // Stop showing the gridbox.
         gridBox.SetActive(false);
 
         // If mouse button just released,
@@ -83,6 +133,7 @@ public class Player : MonoBehaviour
 
             StartCoroutine(Move(unitGrid.GetCellCenterWorld(gridboxCellPosition)));
             isMoving = true;
+            animator.SetBool("walk", true);
 
         }
 
@@ -92,26 +143,12 @@ public class Player : MonoBehaviour
     {
         if (isMoving) return;
 
-        // Debug - draw gridBox at cursor
-        Vector3 screenPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f);
-        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
-
-        // Converting to cell and then back should yield something grid-aligned.
-        Vector3Int cellPosition = unitGrid.WorldToCell(worldPosition);
-        worldPosition = unitGrid.CellToWorld(cellPosition);
-
-        // Make position align to 16x16 grid.
-        //        worldPosition.x -= worldPosition.x % 16;
-        //        worldPosition.y -= worldPosition.y % 16;
-        //        worldPosition.z = 0f;  // This is a gotcha, will have z = -10 from Camera.main.ScreenToWorldPoint, which makes it invisible.
-
-        // Set transform of gridbox
-        gridBox.transform.position = worldPosition;
 
     }
 
     protected IEnumerator Move(Vector3 end)
     {
+        boxCollider.enabled = false;
 
         // Destroy all of the gridboxes.
         foreach (GameObject gridBox in gridBoxes) Destroy(gridBox);
@@ -121,7 +158,6 @@ public class Player : MonoBehaviour
         Vector2Int playerCellPosition = ((Vector2Int)unitGrid.WorldToCell(transform.position));
         Vector2Int targetCellPosition = ((Vector2Int)unitGrid.WorldToCell(end));
         List<Vector2Int> path = BFS(playerCellPosition, targetCellPosition, maxDistance);
-        boxCollider.enabled = false;
 
         for (int i = 0; i < path.Count; ++i)
         {
@@ -169,17 +205,16 @@ public class Player : MonoBehaviour
             }
 
         }
-        boxCollider.enabled = true;
-
 
         // Done moving.
         transform.position = end;
         isMoving = false;
+        animator.SetBool("walk", false);
 
         // TODO: move to method
         // Re-populate the positions that the player can move to.
         playerCellPosition = ((Vector2Int)unitGrid.WorldToCell(transform.position));
-        List<Vector2Int> cellPositions = BFS(playerCellPosition, Vector2Int.zero, maxDistance);
+        cellPositions = BFS(playerCellPosition, null, maxDistance);
 
         gridBoxes.Clear();
 
@@ -204,6 +239,9 @@ public class Player : MonoBehaviour
             gridBoxes.Add(instance);
 
         }
+
+        boxCollider.enabled = true;
+
     }
 
     /**
@@ -246,7 +284,7 @@ public class Player : MonoBehaviour
     /**
      * TODO: probably make abstract Unit, move this there.
      */
-    public List<Vector2Int> BFS(Vector2Int origin, Vector2Int target, int maxDistance)
+    public List<Vector2Int> BFS(Vector2Int origin, Vector2Int? target, int maxDistance)
     {
 
         List<Vector2Int> allCells = new List<Vector2Int>();

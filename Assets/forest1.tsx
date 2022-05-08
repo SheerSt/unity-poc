@@ -173,6 +173,11 @@
    <object id="1" x="0" y="0" width="8" height="8"/>
   </objectgroup>
  </tile>
+ <tile id="521">
+  <properties>
+   <property name="isSolid" type="" value=""/>
+  </properties>
+ </tile>
  <tile id="582">
   <properties>
    <property name="isSolid" type="bool" value="true"/>
@@ -197,6 +202,11 @@
    <object id="1" x="0" y="0" width="8" height="8"/>
   </objectgroup>
  </tile>
+ <tile id="585">
+  <properties>
+   <property name="isSolid" type="" value=""/>
+  </properties>
+ </tile>
  <tile id="646">
   <properties>
    <property name="isSolid" type="bool" value="true"/>
@@ -220,6 +230,11 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="8" height="8"/>
   </objectgroup>
+ </tile>
+ <tile id="649">
+  <properties>
+   <property name="isSolid" type="" value=""/>
+  </properties>
  </tile>
  <tile id="710">
   <properties>
@@ -301,6 +316,16 @@
    <object id="1" x="0" y="0" width="8" height="8"/>
   </objectgroup>
  </tile>
+ <tile id="786">
+  <properties>
+   <property name="isSolid" type="" value=""/>
+  </properties>
+ </tile>
+ <tile id="787">
+  <properties>
+   <property name="isSolid" type="" value=""/>
+  </properties>
+ </tile>
  <tile id="788">
   <properties>
    <property name="isSolid" type="bool" value="true"/>
@@ -364,6 +389,16 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="8" height="8"/>
   </objectgroup>
+ </tile>
+ <tile id="850">
+  <properties>
+   <property name="isSolid" type="" value=""/>
+  </properties>
+ </tile>
+ <tile id="851">
+  <properties>
+   <property name="isSolid" type="" value=""/>
+  </properties>
  </tile>
  <tile id="852">
   <properties>

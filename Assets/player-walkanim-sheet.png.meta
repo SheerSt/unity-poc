@@ -1,10 +1,7 @@
 fileFormatVersion: 2
-guid: a72734c2449574a4cb7dfcd855a3b089
+guid: 886655b2933a8064ba8e624b169af0c0
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: -2428572212734766521
-    second: sheet-16x16_0
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -92,7 +89,7 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
-    buildTarget: WebGL
+    buildTarget: Server
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -107,22 +104,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: sheet-16x16_0
+      name: player-walkanim-sheet_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 112
+        y: 0
         width: 16
-        height: 16
-      alignment: 6
-      pivot: {x: 0, y: 0}
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7425f8c807afb4ed0800000000000000
-      internalID: -2428572212734766521
+      spriteID: a293122833fae1f48b52185461590791
+      internalID: 1749946423
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player-walkanim-sheet_1
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 0
+        width: 16
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04715bc46a1fd3249a9e93f55bedf519
+      internalID: -801706386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player-walkanim-sheet_2
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 0
+        width: 16
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0ec1f315f6e07df49875c069cf47a095
+      internalID: 165866686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: player-walkanim-sheet_3
+      rect:
+        serializedVersion: 2
+        x: 48
+        y: 0
+        width: 16
+        height: 24
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4bf52719d7edd1f45ab592bd968af171
+      internalID: -201834167
       vertices: []
       indices: 
       edges: []
@@ -138,7 +198,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      sheet-16x16_0: -2428572212734766521
+      player-walkanim-sheet_1: -801706386
+      player-walkanim-sheet_0: 1749946423
+      player-walkanim-sheet_3: -201834167
+      player-walkanim-sheet_2: 165866686
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
