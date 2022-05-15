@@ -13,6 +13,10 @@ public class Game : MonoBehaviour
     public Tilemap[] tileMaps;
     public GameObject mouseover;
     public TextMeshProUGUI mouseoverText;
+    public AudioClip[] audioClips;
+
+    private AudioSource soundFx;
+    private Dictionary<string, AudioClip> audioClipsDict = new Dictionary<string, AudioClip>();
 
     void Awake()
     {
@@ -22,7 +26,7 @@ public class Game : MonoBehaviour
     }
 
     // Start is called before the first frame update
-        void Start()
+    void Start()
     {
         manager = this;
         tileMaps = FindObjectsOfType<Tilemap>();
@@ -31,11 +35,28 @@ public class Game : MonoBehaviour
         // Set text based on unit information.
         mouseoverText = mouseover.GetComponentInChildren<TextMeshProUGUI>();
 
+        // Keep track of the sound-manager game object.
+        soundFx = GetComponent<AudioSource>();
+        foreach (AudioClip audioClip in audioClips) audioClipsDict.Add(audioClip.name, audioClip);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
+
+    /**
+     * Play a sound using the GameManager
+     */
+    public void PlaySound(string sound)
+    {
+
+        soundFx.enabled = false;
+        soundFx.clip = audioClipsDict[sound];
+        soundFx.enabled = true;
+
+    }
+
 }

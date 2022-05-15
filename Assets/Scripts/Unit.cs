@@ -10,6 +10,9 @@ public class Unit : MonoBehaviour
     public GameObject gridBox;
     public float moveTime;
 
+    // TODO: debug
+    public Unit hitOpponent;
+
     protected bool isMoving = false;
     protected Animator animator;
     protected BoxCollider2D boxCollider;
@@ -316,6 +319,26 @@ public class Unit : MonoBehaviour
     {
 
         spriteResolver.SetCategoryAndLabel(this.name, label);
+
+    }
+
+    /**
+     * Play a sound using the GameManager
+     */
+    public void PlaySound(string sound)
+    {
+
+        Game.manager.PlaySound(sound);
+
+    }
+
+    /**
+     * Play a sound using the GameManager
+     */
+    public void HitOpponent()
+    {
+
+        if (hitOpponent != null) hitOpponent.animator.SetTrigger("damaged");
 
     }
 
