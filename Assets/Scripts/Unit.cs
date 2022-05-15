@@ -29,12 +29,16 @@ public class Unit : MonoBehaviour
     {
 
         // Keep track of necessary components.
+        // if (transform.parent != null) boxCollider = transform.parent.GetComponent<BoxCollider2D>();
+        // else 
         boxCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
         spriteResolver = GetComponent<SpriteResolver>();
 
         // Only way I could get the SetLabel event to work.
         if (spriteResolver != null) spriteResolver.enabled = false;
+
+        //
 
     }
 
