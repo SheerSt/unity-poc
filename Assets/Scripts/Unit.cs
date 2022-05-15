@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.U2D.Animation;
 
 public class Unit : MonoBehaviour
 {
@@ -21,6 +22,8 @@ public class Unit : MonoBehaviour
     protected int hp;
     protected int speed;
 
+    private SpriteResolver spriteResolver;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -28,13 +31,17 @@ public class Unit : MonoBehaviour
         // Keep track of necessary components.
         boxCollider = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
+        spriteResolver = GetComponent<SpriteResolver>();
+
+        // Only way I could get the SetLabel event to work.
+        if (spriteResolver != null) spriteResolver.enabled = false;
 
     }
 
     // Update is called once per frame
     protected virtual void Update()
     {
-        
+
     }
 
     private void OnMouseEnter()
@@ -293,6 +300,18 @@ public class Unit : MonoBehaviour
         }
 
         return allCells;
+
+    }
+
+    /**
+     * Very difficult to figure out.
+     * 
+     * Note: The spriteResolver must be disabled in order for this to work. It's disabled in Start() right now.
+     */
+    public void SetLabel(string label)
+    {
+
+        spriteResolver.SetCategoryAndLabel(this.name, label);
 
     }
 

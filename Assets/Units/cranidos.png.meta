@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4b1ec9434abc43d498571bd6614c144f
+guid: 25ad999756d8fa549b2d28b0632a3d39
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,7 +104,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ivysaur_anims1_0
+      name: cranidos_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,14 +118,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24f858d219b083e49b7a2f9eed2a4d92
-      internalID: 336580384
+      spriteID: dd69e8eaf19df5f46bc992ec6819ae1c
+      internalID: 1023622526
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ivysaur_anims1_1
+      name: cranidos_1
       rect:
         serializedVersion: 2
         x: 16
@@ -139,14 +139,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0c0fe46b34d1d904ab777d62e4ee725e
-      internalID: -1677429449
+      spriteID: 3ec9816bc885e5f4c8eaa4b2c49cd0df
+      internalID: 684375275
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ivysaur_anims1_2
+      name: cranidos_2
       rect:
         serializedVersion: 2
         x: 0
@@ -160,14 +160,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f38abebba08fcd8428f2060532961e90
-      internalID: -806778216
+      spriteID: 30353c3817b88ee4eb00457965b83a5f
+      internalID: 899094710
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ivysaur_anims1_3
+      name: cranidos_3
       rect:
         serializedVersion: 2
         x: 16
@@ -181,8 +181,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c990861902c0b024bb645024ba8d8ec9
-      internalID: 1463879312
+      spriteID: 031126f9b2061d04dbefd4b6b17cb256
+      internalID: 765468193
       vertices: []
       indices: 
       edges: []
@@ -198,10 +198,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ivysaur_anims1_0: 336580384
-      ivysaur_anims1_2: -806778216
-      ivysaur_anims1_3: 1463879312
-      ivysaur_anims1_1: -1677429449
+      cranidos_0: 1023622526
+      cranidos_3: 765468193
+      cranidos_2: 899094710
+      cranidos_1: 684375275
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 25ad999756d8fa549b2d28b0632a3d39
+guid: a7f8a2b1ffa11b842a38b7775e28c1f0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,7 +104,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ivysaur_anims1_0
+      name: nidoran_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,14 +118,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24f858d219b083e49b7a2f9eed2a4d92
-      internalID: 336580384
+      spriteID: b6e6adbcc4826fc468947ccf5385d63b
+      internalID: -1483665672
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ivysaur_anims1_1
+      name: nidoran_1
       rect:
         serializedVersion: 2
         x: 16
@@ -139,14 +139,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0c0fe46b34d1d904ab777d62e4ee725e
-      internalID: -1677429449
+      spriteID: 9b306f5c5d40cd147bbde36be94da6a7
+      internalID: -623000571
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ivysaur_anims1_2
+      name: nidoran_2
       rect:
         serializedVersion: 2
         x: 0
@@ -160,14 +160,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f38abebba08fcd8428f2060532961e90
-      internalID: -806778216
+      spriteID: b03281e386b14bc4f84324b48f929d92
+      internalID: -1405783204
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ivysaur_anims1_3
+      name: nidoran_3
       rect:
         serializedVersion: 2
         x: 16
@@ -181,8 +181,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c990861902c0b024bb645024ba8d8ec9
-      internalID: 1463879312
+      spriteID: 54fcb06a29a37b74d8ac72c80b2d374d
+      internalID: 1137087618
       vertices: []
       indices: 
       edges: []
@@ -198,10 +198,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ivysaur_anims1_0: 336580384
-      ivysaur_anims1_2: -806778216
-      ivysaur_anims1_3: 1463879312
-      ivysaur_anims1_1: -1677429449
+      nidoran_0: -1483665672
+      nidoran_2: -1405783204
+      nidoran_1: -623000571
+      nidoran_3: 1137087618
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

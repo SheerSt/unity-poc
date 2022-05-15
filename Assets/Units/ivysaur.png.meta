@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a7f8a2b1ffa11b842a38b7775e28c1f0
+guid: 4b1ec9434abc43d498571bd6614c144f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -104,7 +104,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ivysaur_anims1_0
+      name: ivysaur_0
       rect:
         serializedVersion: 2
         x: 0
@@ -118,14 +118,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 24f858d219b083e49b7a2f9eed2a4d92
-      internalID: 336580384
+      spriteID: 3e73f475a3c653543b8600ded5927229
+      internalID: 1467365247
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ivysaur_anims1_1
+      name: ivysaur_1
       rect:
         serializedVersion: 2
         x: 16
@@ -139,14 +139,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0c0fe46b34d1d904ab777d62e4ee725e
-      internalID: -1677429449
+      spriteID: 3ce58e6f2a88d3d42b73ad5f62f9901e
+      internalID: 317230641
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ivysaur_anims1_2
+      name: ivysaur_2
       rect:
         serializedVersion: 2
         x: 0
@@ -160,14 +160,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f38abebba08fcd8428f2060532961e90
-      internalID: -806778216
+      spriteID: 45ccdaa55b531ee4d999a1b836f98670
+      internalID: 2085197251
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ivysaur_anims1_3
+      name: ivysaur_3
       rect:
         serializedVersion: 2
         x: 16
@@ -181,8 +181,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c990861902c0b024bb645024ba8d8ec9
-      internalID: 1463879312
+      spriteID: 73281e391d8706941acacba6b59d611e
+      internalID: 2023537164
       vertices: []
       indices: 
       edges: []
@@ -198,10 +198,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ivysaur_anims1_0: 336580384
-      ivysaur_anims1_2: -806778216
-      ivysaur_anims1_3: 1463879312
-      ivysaur_anims1_1: -1677429449
+      ivysaur_2: 2085197251
+      ivysaur_0: 1467365247
+      ivysaur_1: 317230641
+      ivysaur_3: 2023537164
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
