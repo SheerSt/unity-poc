@@ -3,18 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.U2D.Animation;
 
 public class Unit : MonoBehaviour
 {
-    public GameObject gridBox;
+    [HideInInspector] public GameObject gridBox;
+    [HideInInspector] public Animator animator;
     public float moveTime;
 
-    // TODO: debug
-    public Unit hitOpponent;
-
     protected bool isMoving = false;
-    protected Animator animator;
     protected BoxCollider2D boxCollider;
     protected List<GameObject> gridBoxes = new List<GameObject>();
     protected List<Vector2Int> cellPositions = new List<Vector2Int>();
@@ -25,23 +21,15 @@ public class Unit : MonoBehaviour
     protected int hp;
     protected int speed;
 
-    private SpriteResolver spriteResolver;
-
     // Start is called before the first frame update
     protected virtual void Start()
     {
 
         // Keep track of necessary components.
-        // if (transform.parent != null) boxCollider = transform.parent.GetComponent<BoxCollider2D>();
-        // else 
-        boxCollider = GetComponent<BoxCollider2D>();
-        animator = GetComponent<Animator>();
-        spriteResolver = GetComponent<SpriteResolver>();
 
-        // Only way I could get the SetLabel event to work.
-        if (spriteResolver != null) spriteResolver.enabled = false;
-
-        //
+        GameObject spriteObject = transform.Find("Sprite").gameObject;
+        boxCollider = spriteObject.GetComponent<BoxCollider2D>();
+        animator = spriteObject.GetComponent<Animator>();
 
     }
 
@@ -58,7 +46,7 @@ public class Unit : MonoBehaviour
                         + "  {3}   {4}";
 
         Game.manager.mouseover.SetActive(true);
-        Game.manager.mouseoverText.text = string.Format(template, this.name, this.hp, this.maxHp, this.attack, this.speed);
+        Game.manager.mouseoverText.text = string.Format(template, transform.parent.name, hp, maxHp, attack, speed);
 
     }
 
@@ -307,38 +295,6 @@ public class Unit : MonoBehaviour
         }
 
         return allCells;
-
-    }
-
-    /**
-     * Very difficult to figure out.
-     * 
-     * Note: The spriteResolver must be disabled in order for this to work. It's disabled in Start() right now.
-     */
-    public void SetLabel(string label)
-    {
-
-        spriteResolver.SetCategoryAndLabel(this.name, label);
-
-    }
-
-    /**
-     * Play a sound using the GameManager
-     */
-    public void PlaySound(string sound)
-    {
-
-        Game.manager.PlaySound(sound);
-
-    }
-
-    /**
-     * Play a sound using the GameManager
-     */
-    public void HitOpponent()
-    {
-
-        if (hitOpponent != null) hitOpponent.animator.SetTrigger("damaged");
 
     }
 

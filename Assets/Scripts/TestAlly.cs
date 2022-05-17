@@ -16,7 +16,7 @@ public class TestAlly : MonoBehaviour
     void Start()
     {
         
-        pokemonAnimator = transform.Find("Drilbur").gameObject.GetComponent<Animator>();
+        pokemonAnimator = transform.Find("Sprite").gameObject.GetComponent<Animator>();
         attackAnimator = transform.Find("AttackAnim").gameObject.GetComponent<Animator>();
 
     }
