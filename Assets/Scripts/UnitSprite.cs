@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D.Animation;
 
+/**
+ * I tried the name 'Sprite' but that conflicted with a name in SuperTiled2Unity.
+ */
 public class UnitSprite : MonoBehaviour
 {
-
-    // TODO: debug
-    public Unit hitOpponent;
+    Unit unit;
 
     private SpriteResolver spriteResolver;
 
@@ -20,11 +21,41 @@ public class UnitSprite : MonoBehaviour
         // Only way I could get the SetLabel event to work.
         if (spriteResolver != null) spriteResolver.enabled = false;
 
+        unit = transform.parent.GetComponent<Unit>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+
+    }
+
+    private void OnMouseEnter()
+    {
+        string template = "{0}\n\n"
+                        + "  {1}/{2}\n\n"
+                        + "  {3}   {4}";
+
+        Game.manager.mouseover.SetActive(true);
+        Game.manager.mouseoverText.text = string.Format(template, transform.parent.name, unit.hp, unit.maxHp, unit.attack, unit.speed);
+
+    }
+
+    private void OnMouseExit()
+    {
+        Game.manager.mouseover.SetActive(false);
+    }
+
+    private void OnMouseOver()
+    {
+
+        // Convert to Vector2 then Vector3 in order to remove the z component.
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition.x += .05f;
+        mousePosition.y += .15f;
+        mousePosition.z = 0f;
+        Game.manager.mouseover.transform.position = mousePosition;
 
     }
 
@@ -56,7 +87,13 @@ public class UnitSprite : MonoBehaviour
     public void HitOpponent()
     {
 
-        if (hitOpponent != null) hitOpponent.animator.SetTrigger("damaged");
+        if (unit.hitOpponent != null)
+        {
+
+            unit.hitOpponent.spriteAnimator.SetTrigger("damaged");
+            unit.hitOpponent = null;
+
+        }
 
     }
 

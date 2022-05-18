@@ -8,13 +8,18 @@ public class Player : Unit
     private bool isDragging = false;
     private Vector3Int prevCellPosition;
 
+    void Awake()
+    {
+
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {
 
-        base.Start();
         gridBox = Instantiate(gridBox);
         gridBox.SetActive(false);
+        base.Start();
 
     }
 
@@ -57,6 +62,8 @@ public class Player : Unit
         // Show the gridbox if the mouse is being dragged.
         if (!isDragging) return;
 
+        if (Input.GetMouseButtonUp(0)) MouseUp();
+
         // Draw gridBox at cursor
         Vector3 screenPosition = new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0f);
         Vector3 worldPosition = Camera.main.ScreenToWorldPoint(screenPosition);
@@ -82,12 +89,13 @@ public class Player : Unit
 
     }
 
-    private void OnMouseUp()
+    private void MouseUp()
     {
+
         if (isMoving) return;
 
         // Return if player cancelled the move to this position.
-        if (!isDragging) return;
+        //if (!isDragging) return;  // TODO: remove
         isDragging = false;
 
         // Stop showing the gridbox.
@@ -106,7 +114,7 @@ public class Player : Unit
 
             StartCoroutine(Move(Game.manager.unitGrid.GetCellCenterWorld(gridboxCellPosition)));
             isMoving = true;
-            animator.SetBool("walk", true);
+            spriteAnimator.SetBool("walk", true);
 
         }
 

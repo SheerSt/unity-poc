@@ -7,8 +7,20 @@ using TMPro;
 public class Game : MonoBehaviour
 {
 
-    public static Game manager;
-    
+    public static Game _manager;
+    public static Game manager
+    {
+        get
+        {
+            if (_manager == null)
+            {
+                _manager = FindObjectOfType<Game>();
+            }
+            return _manager;
+        }
+        set { }
+    }
+
     public Grid unitGrid;  // 16x16 grid that units move on.
     public Tilemap[] tileMaps;
     public GameObject mouseover;
@@ -21,16 +33,21 @@ public class Game : MonoBehaviour
     void Awake()
     {
 
-        if (manager == null) manager = this;
+        //if (manager == null) manager = this;
+
+        // Keeps this from getting destroyed during code swap.
+        DontDestroyOnLoad(gameObject);
+
+        // TODO: test
+        unitGrid = GameObject.Find("UnitGrid").GetComponent<Grid>();
 
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        manager = this;
+
         tileMaps = FindObjectsOfType<Tilemap>();
-        unitGrid = GameObject.Find("UnitGrid").GetComponent<Grid>();
         mouseover = GameObject.Find("UnitMouseover");
         // Set text based on unit information.
         mouseoverText = mouseover.GetComponentInChildren<TextMeshProUGUI>();
