@@ -91,6 +91,10 @@ public class UnitSprite : MonoBehaviour
         {
 
             unit.hitOpponent.spriteAnimator.SetTrigger("damaged");
+            unit.hitOpponent.ApplyDamage(10);
+
+            if (unit.hitOpponent.hp <= 0) StartCoroutine(unit.hitOpponent.FaintAnimation());
+
             unit.hitOpponent = null;
 
         }

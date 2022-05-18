@@ -6,10 +6,18 @@ using UnityEngine.UI;
 public class HealthbarBehavior : MonoBehaviour
 {
 
-    public Slider slider;
     public Color low;
     public Color high;
     public Vector3 offset;
+
+    private Slider slider;
+
+    public void Awake()
+    {
+
+        slider = transform.Find("healthBar").GetComponent<Slider>();
+
+    }
 
     public void SetHealth(int health, int maxHealth)
     {

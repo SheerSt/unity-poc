@@ -10,10 +10,11 @@ public class Unit : MonoBehaviour
     [HideInInspector] public Animator spriteAnimator;
     public float moveTime;
     public Unit hitOpponent;
+
     // Stats
     [HideInInspector] public int attack;
-    [HideInInspector] public int maxHp;
-    [HideInInspector] public int hp;
+    public int maxHp;
+    public int hp;
     [HideInInspector] public int speed;
 
     protected bool isMoving = false;
@@ -31,6 +32,9 @@ public class Unit : MonoBehaviour
     protected virtual void Start()
     {
 
+        hp = 40;
+        maxHp = 40;
+
         // Keep track of necessary components.
         spriteObject = transform.Find("Sprite").gameObject;
         boxCollider = spriteObject.GetComponent<BoxCollider2D>();
@@ -43,9 +47,9 @@ public class Unit : MonoBehaviour
         if (healthBarTransform != null)
         {
 
-            healthBarCanvas = healthBar.gameObject;  // TODO: may not need this.
+            healthBarCanvas = healthBarTransform.gameObject;  // TODO: may not need this.
             healthBar = healthBarCanvas.GetComponent<HealthbarBehavior>();
-            healthBar.transform.SetParent(transform);
+            //healthBar.transform.SetParent(transform);
             healthBar.SetHealth(hp, maxHp);
 
         }
@@ -72,8 +76,10 @@ public class Unit : MonoBehaviour
      */
     public void ApplyDamage(int damage)
     {
+
         hp -= damage;
         healthBar.SetHealth(hp, maxHp);
+
     }
 
     /**
@@ -152,7 +158,7 @@ public class Unit : MonoBehaviour
         spriteAnimator.SetBool("walk", false);
 
         // If hitting an opposing Unit, perform the animation.
-        if (hitOpponent != null) StartCoroutine(HitEnemy());
+        if (hitOpponent != null) StartCoroutine(AttackAnimation());
 
         RefreshGridBoxes();
 
@@ -215,8 +221,9 @@ public class Unit : MonoBehaviour
     /**
      * Coroutine just incase delays are needed in the future.
      */
-    protected IEnumerator HitEnemy()
+    protected IEnumerator AttackAnimation()
     {
+        this.healthBarCanvas.SetActive(false);
 
         if (Mathf.Abs(hitOpponent.transform.position.x - transform.position.x) <= float.Epsilon)
         {
@@ -236,9 +243,26 @@ public class Unit : MonoBehaviour
         // Opponent looks at this unit during attack
         hitOpponent.SpriteLookAtDamaged(transform.position);
 
-        yield return null;
+        yield return new WaitForSeconds(1.8f);
+
+        this.healthBarCanvas.SetActive(true);
+
 
     }
+
+    public IEnumerator FaintAnimation()
+    {
+
+        yield return new WaitForSeconds(0.4f);
+
+        Game.manager.PlaySound("faint4");
+
+        yield return new WaitForSeconds(0.8f);
+
+        Destroy(gameObject);
+
+    }
+
 
     /**
      * TODO: tried using boxcolliders, can't get that to work. Ideally get that working at some point.
@@ -327,7 +351,7 @@ public class Unit : MonoBehaviour
 
         // The very confusing thing about this is that it looks like this will
         // be set relative to this.transform when initialized (?)
-        spriteObject.transform.eulerAngles = new Vector3(0f, 0f, zRotationAmount);
+        spriteObject.transform.eulerAngles = new Vector3(0f, yRotationAmount, zRotationAmount);
         spriteObject.transform.Rotate(0f, 0f, -zRotationAmount);
 
     }
