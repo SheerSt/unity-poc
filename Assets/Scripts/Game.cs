@@ -21,11 +21,14 @@ public class Game : MonoBehaviour
         set { }
     }
 
+    public bool aPlayerIsMoving = false;
     public Grid unitGrid;  // 16x16 grid that units move on.
     public Tilemap[] tileMaps;
     public GameObject mouseover;
     public TextMeshProUGUI mouseoverText;
     public AudioClip[] audioClips;
+    public Player[] players;
+    public Enemy[] enemies;
 
     private AudioSource soundFx;
     private Dictionary<string, AudioClip> audioClipsDict = new Dictionary<string, AudioClip>();
@@ -55,6 +58,11 @@ public class Game : MonoBehaviour
         // Keep track of the sound-manager game object.
         soundFx = GetComponent<AudioSource>();
         foreach (AudioClip audioClip in audioClips) audioClipsDict.Add(audioClip.name, audioClip);
+
+
+        // Keep track of all ally and enemy units.
+        players = GameObject.FindObjectsOfType<Player>(true);
+        enemies = GameObject.FindObjectsOfType<Enemy>(true);
 
     }
 

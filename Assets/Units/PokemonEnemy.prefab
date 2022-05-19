@@ -53,7 +53,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3109635525960402606, guid: ffad2f7f6aaeb8e45bb1d743cb5aab78, type: 3}
       propertyPath: m_Name
-      value: Enemy
+      value: PokemonEnemy
       objectReference: {fileID: 0}
     - target: {fileID: 3109635526136924165, guid: ffad2f7f6aaeb8e45bb1d743cb5aab78, type: 3}
       propertyPath: m_Sprite
@@ -84,10 +84,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridBox: {fileID: 0}
-  animator: {fileID: 0}
-  moveTime: 0
+  spriteAnimator: {fileID: 0}
+  moveTime: 0.6
   hitOpponent: {fileID: 0}
   attack: 0
-  maxHp: 0
-  hp: 0
+  maxHp: 40
+  hp: 40
   speed: 0

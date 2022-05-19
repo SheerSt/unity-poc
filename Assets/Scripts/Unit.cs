@@ -17,7 +17,7 @@ public class Unit : MonoBehaviour
     public int hp;
     [HideInInspector] public int speed;
 
-    protected bool isMoving = false;
+    protected bool hasMoved = false;
     protected BoxCollider2D boxCollider;
     protected List<GameObject> gridBoxes = new List<GameObject>();
     protected List<Vector2Int> cellPositions = new List<Vector2Int>();
@@ -32,9 +32,6 @@ public class Unit : MonoBehaviour
     protected virtual void Start()
     {
 
-        hp = 40;
-        maxHp = 40;
-
         // Keep track of necessary components.
         spriteObject = transform.Find("Sprite").gameObject;
         boxCollider = spriteObject.GetComponent<BoxCollider2D>();
@@ -47,21 +44,20 @@ public class Unit : MonoBehaviour
         if (healthBarTransform != null)
         {
 
-            healthBarCanvas = healthBarTransform.gameObject;  // TODO: may not need this.
+            healthBarCanvas = healthBarTransform.gameObject;
             healthBar = healthBarCanvas.GetComponent<HealthbarBehavior>();
             //healthBar.transform.SetParent(transform);
             healthBar.SetHealth(hp, maxHp);
 
         }
 
-        // Refresh positions that this can move to.
-        if (gridBox != null) RefreshGridBoxes();
-
         // TODO: debug, remove
         // Snap to nearest cell position
         Vector3Int cellPosition = Game.manager.unitGrid.WorldToCell(transform.position);
         transform.position = Game.manager.unitGrid.GetCellCenterWorld(cellPosition);
 
+        // Refresh positions that this can move to.
+        if (gridBox != null) RefreshGridBoxes();
 
     }
 
@@ -85,8 +81,11 @@ public class Unit : MonoBehaviour
     /**
      * Moves the Unit to a given position.
      */
-    protected IEnumerator Move(Vector3 end)
+    public virtual IEnumerator Move(Vector3 end)
     {
+
+        spriteAnimator.SetBool("walk", true);
+
         boxCollider.enabled = false;
 
         // Destroy all of the gridboxes.
@@ -154,14 +153,13 @@ public class Unit : MonoBehaviour
 
         // Done moving.
         //transform.position = end;  // TODO: remove
-        isMoving = false;
         spriteAnimator.SetBool("walk", false);
 
         // If hitting an opposing Unit, perform the animation.
-        if (hitOpponent != null) StartCoroutine(AttackAnimation());
+        // `yield return` makes it so that this Coroutine won't continue until AttackAnimation() is done.
+        if (hitOpponent != null) yield return StartCoroutine(AttackAnimation());
 
-        RefreshGridBoxes();
-
+        // RefreshGridBoxes();  // TODO: remove
         boxCollider.enabled = true;
 
     }
@@ -223,7 +221,7 @@ public class Unit : MonoBehaviour
      */
     protected IEnumerator AttackAnimation()
     {
-        this.healthBarCanvas.SetActive(false);
+        healthBarCanvas.SetActive(false);
 
         if (Mathf.Abs(hitOpponent.transform.position.x - transform.position.x) <= float.Epsilon)
         {
@@ -245,8 +243,7 @@ public class Unit : MonoBehaviour
 
         yield return new WaitForSeconds(1.8f);
 
-        this.healthBarCanvas.SetActive(true);
-
+        healthBarCanvas.SetActive(true);
 
     }
 

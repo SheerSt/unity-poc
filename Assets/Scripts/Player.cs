@@ -27,9 +27,11 @@ public class Player : Unit
     protected override void Update()
     {
 
-        // Mouse input section.
-        if (isMoving) return;
+        // Cannot select a player if something is moving, or if this has already moved this turn.
+        if (Game.manager.aPlayerIsMoving) return;
+        if (hasMoved) return;
 
+        // Handle mouse input section.
         // Check if just clicked on this object
         if (Input.GetMouseButtonDown(0))
         {
@@ -92,8 +94,6 @@ public class Player : Unit
     private void MouseUp()
     {
 
-        if (isMoving) return;
-
         // Return if player cancelled the move to this position.
         //if (!isDragging) return;  // TODO: remove
         isDragging = false;
@@ -112,9 +112,66 @@ public class Player : Unit
         if (playerCellPosition != gridboxCellPosition)
         {
 
+            Game.manager.aPlayerIsMoving = true;
+            hasMoved = true;
             StartCoroutine(Move(Game.manager.unitGrid.GetCellCenterWorld(gridboxCellPosition)));
-            isMoving = true;
-            spriteAnimator.SetBool("walk", true);
+
+        }
+
+    }
+
+
+    /**
+     * Moves the Unit to a given position.
+     */
+    public override IEnumerator Move(Vector3 end)
+    {
+
+        yield return StartCoroutine(base.Move(end));
+
+        // TODO: move to method vv Player.DoneMoving? or Game.manager.PlayerDoneMoving()
+
+        // Refresh all BFS of Ally units
+        Game.manager.aPlayerIsMoving = false;
+        bool aPlayerCanMove = false;
+        foreach (Player player in Game.manager.players)
+        {
+
+            if (!player.hasMoved)
+            {
+
+                aPlayerCanMove = true;
+                player.RefreshGridBoxes();
+
+            }
+
+        }
+
+        if (!aPlayerCanMove)
+        {
+            // TODO: if aggroed, ...
+
+            // BFS 4 units away.
+            // Move to a random position.
+            foreach (Enemy enemy in Game.manager.enemies)
+            {
+
+                // TODO: move to Enemy method.
+                Vector2Int enemyCellPosition = ((Vector2Int)Game.manager.unitGrid.WorldToCell(enemy.transform.position));
+                List<Vector2Int> cellPositions = enemy.BFS(enemyCellPosition, null, 4);
+                enemyCellPosition = cellPositions[Random.Range(0, cellPositions.Count)];
+                yield return enemy.StartCoroutine(enemy.Move(Game.manager.unitGrid.GetCellCenterWorld((Vector3Int)enemyCellPosition)));
+
+            }
+
+            // Refresh all ally BFS and set hasMoved = false;
+            foreach (Player player in Game.manager.players)
+            {
+
+                player.hasMoved = false;
+                player.RefreshGridBoxes();
+
+            }
 
         }
 
