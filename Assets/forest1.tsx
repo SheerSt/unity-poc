@@ -17,6 +17,16 @@
    <object id="1" x="0" y="0" width="8" height="8"/>
   </objectgroup>
  </tile>
+ <tile id="24">
+  <properties>
+   <property name="endZone" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="25">
+  <properties>
+   <property name="endZone" type="bool" value="true"/>
+  </properties>
+ </tile>
  <tile id="72">
   <properties>
    <property name="isSolid" type="bool" value="true"/>
@@ -32,6 +42,21 @@
   <objectgroup draworder="index" id="2">
    <object id="1" x="0" y="0" width="8" height="8"/>
   </objectgroup>
+ </tile>
+ <tile id="88">
+  <properties>
+   <property name="endZone" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="89">
+  <properties>
+   <property name="endZone" type="bool" value="true"/>
+  </properties>
+ </tile>
+ <tile id="90">
+  <properties>
+   <property name="startZone" type="bool" value="true"/>
+  </properties>
  </tile>
  <tile id="134">
   <properties>
@@ -175,7 +200,7 @@
  </tile>
  <tile id="521">
   <properties>
-   <property name="isSolid" type="" value=""/>
+   <property name="isSolid" value=""/>
   </properties>
  </tile>
  <tile id="582">
@@ -204,7 +229,7 @@
  </tile>
  <tile id="585">
   <properties>
-   <property name="isSolid" type="" value=""/>
+   <property name="isSolid" value=""/>
   </properties>
  </tile>
  <tile id="646">
@@ -233,7 +258,7 @@
  </tile>
  <tile id="649">
   <properties>
-   <property name="isSolid" type="" value=""/>
+   <property name="isSolid" value=""/>
   </properties>
  </tile>
  <tile id="710">
@@ -318,12 +343,12 @@
  </tile>
  <tile id="786">
   <properties>
-   <property name="isSolid" type="" value=""/>
+   <property name="isSolid" value=""/>
   </properties>
  </tile>
  <tile id="787">
   <properties>
-   <property name="isSolid" type="" value=""/>
+   <property name="isSolid" value=""/>
   </properties>
  </tile>
  <tile id="788">
@@ -392,12 +417,12 @@
  </tile>
  <tile id="850">
   <properties>
-   <property name="isSolid" type="" value=""/>
+   <property name="isSolid" value=""/>
   </properties>
  </tile>
  <tile id="851">
   <properties>
-   <property name="isSolid" type="" value=""/>
+   <property name="isSolid" value=""/>
   </properties>
  </tile>
  <tile id="852">

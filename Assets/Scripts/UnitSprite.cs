@@ -67,7 +67,8 @@ public class UnitSprite : MonoBehaviour
      */
     public void SetLabel(string label)
     {
-        spriteResolver.SetCategoryAndLabel(transform.parent.name, label);
+
+        if (spriteResolver != null) spriteResolver.SetCategoryAndLabel(transform.parent.name, label);
 
     }
 
@@ -91,9 +92,22 @@ public class UnitSprite : MonoBehaviour
         {
 
             unit.hitOpponent.spriteAnimator.SetTrigger("damaged");
-            unit.hitOpponent.ApplyDamage(10);
+            unit.hitOpponent.ApplyDamage(unit.attack);
 
             if (unit.hitOpponent.hp <= 0) StartCoroutine(unit.hitOpponent.FaintAnimation());
+
+            // If an Ally just hit an Enemy, that Enemy aggros the Ally.
+            if (unit is Player && unit.hitOpponent is Enemy)
+            {
+
+                Player player = unit as Player;
+                Enemy enemy = unit.hitOpponent as Enemy;
+                enemy.aggroAlly = player;
+
+                // Set the aggroed icon
+                if (enemy.statusIcons != null) enemy.statusIcons.SetCategoryAndLabel("all", "aggro");
+
+            }
 
             unit.hitOpponent = null;
 

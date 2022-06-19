@@ -87,7 +87,9 @@ MonoBehaviour:
   spriteAnimator: {fileID: 0}
   moveTime: 0.6
   hitOpponent: {fileID: 0}
-  attack: 0
-  maxHp: 40
-  hp: 40
-  speed: 0
+  attack: 1
+  maxHp: 5
+  hp: 5
+  speed: 5
+  statusIcons: {fileID: 0}
+  aggroAlly: {fileID: 0}

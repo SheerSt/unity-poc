@@ -31,7 +31,7 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: player-anim1-sheet_0
+  m_Name: player-controller-deleteme
   serializedVersion: 5
   m_AnimatorParameters:
   - m_Name: walk

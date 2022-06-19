@@ -11,6 +11,8 @@ public class Player : Unit
     void Awake()
     {
 
+        // DontDestroyOnLoad(gameObject);
+
     }
 
     // Start is called before the first frame update
@@ -129,6 +131,15 @@ public class Player : Unit
 
         yield return StartCoroutine(base.Move(end));
 
+        // If moved into the exit area, load new area.
+        if (CheckforTileProperty("endZone", transform.position))
+        {
+
+            yield return StartCoroutine(Game.manager.GotoNextLevel());
+            yield break;
+
+        }
+
         // TODO: move to method vv Player.DoneMoving? or Game.manager.PlayerDoneMoving()
 
         // Refresh all BFS of Ally units
@@ -149,18 +160,49 @@ public class Player : Unit
 
         if (!aPlayerCanMove)
         {
-            // TODO: if aggroed, ...
 
             // BFS 4 units away.
             // Move to a random position.
             foreach (Enemy enemy in Game.manager.enemies)
             {
 
-                // TODO: move to Enemy method.
+                // TODO: move to Enemy method vv
+
                 Vector2Int enemyCellPosition = ((Vector2Int)Game.manager.unitGrid.WorldToCell(enemy.transform.position));
+
+                // If aggroing an Ally, move to that Ally.
+                if (enemy.aggroAlly != null)
+                {
+
+                    Vector2Int allyCellPosition = ((Vector2Int)Game.manager.unitGrid.WorldToCell(enemy.aggroAlly.transform.position));
+                    List<Vector2Int> path = enemy.BFS(enemyCellPosition, allyCellPosition, enemy.speed);
+                    if (path.Count > 0)
+                    {
+
+                        yield return enemy.StartCoroutine(enemy.Move(Game.manager.unitGrid.GetCellCenterWorld((Vector3Int)allyCellPosition)));
+                        continue;
+
+                    }
+
+                    // Wasn't able to path to the Ally, so stop aggroing the Ally.
+                    enemy.aggroAlly = null;
+
+                    // Unset the aggroed icon
+                    if (enemy.statusIcons != null) enemy.statusIcons.SetCategoryAndLabel("all", "none");
+
+                }
+
+
+                // If unable to move to that Ally, stop aggroing the Ally.
                 List<Vector2Int> cellPositions = enemy.BFS(enemyCellPosition, null, 4);
-                enemyCellPosition = cellPositions[Random.Range(0, cellPositions.Count)];
-                yield return enemy.StartCoroutine(enemy.Move(Game.manager.unitGrid.GetCellCenterWorld((Vector3Int)enemyCellPosition)));
+                if (cellPositions.Count > 0)
+                {
+
+                    enemyCellPosition = cellPositions[Random.Range(0, cellPositions.Count)];
+                    yield return enemy.StartCoroutine(enemy.Move(Game.manager.unitGrid.GetCellCenterWorld((Vector3Int)enemyCellPosition)));
+
+                }
+                // ^^
 
             }
 
@@ -176,5 +218,16 @@ public class Player : Unit
         }
 
     }
+
+    public override IEnumerator FaintAnimation()
+    {
+
+        // Update existing players.
+        Game.manager.players.Remove(this);
+
+        yield return StartCoroutine(base.FaintAnimation());
+
+    }
+
 
 }

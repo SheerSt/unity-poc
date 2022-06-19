@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.U2D.Animation;
 
 public class Unit : MonoBehaviour
 {
@@ -12,10 +13,11 @@ public class Unit : MonoBehaviour
     public Unit hitOpponent;
 
     // Stats
-    [HideInInspector] public int attack;
+    public int attack;
     public int maxHp;
     public int hp;
-    [HideInInspector] public int speed;
+    public int speed;
+    [HideInInspector] public SpriteResolver statusIcons;
 
     protected bool hasMoved = false;
     protected BoxCollider2D boxCollider;
@@ -26,6 +28,7 @@ public class Unit : MonoBehaviour
     private Animator attackAnimator;
     private GameObject healthBarCanvas;
     private GameObject spriteObject;
+    private GameObject statusIconsObject;
     private HealthbarBehavior healthBar;
 
     // Start is called before the first frame update
@@ -38,6 +41,15 @@ public class Unit : MonoBehaviour
         spriteAnimator = spriteObject.GetComponent<Animator>();
         Transform attackAnim = transform.Find("AttackAnim");
         if (attackAnim != null) attackAnimator = attackAnim.gameObject.GetComponent<Animator>();
+
+        // Status icons.
+        Transform statusIconTransform = transform.Find("StatusIcon");
+        if (statusIconTransform != null)
+        {
+            statusIconsObject = statusIconTransform.gameObject;
+            statusIcons = statusIconsObject.GetComponent<SpriteResolver>();
+
+        }
 
         // Keep track of Health Bar.
         Transform healthBarTransform = transform.Find("HealthBar");
@@ -56,6 +68,8 @@ public class Unit : MonoBehaviour
         Vector3Int cellPosition = Game.manager.unitGrid.WorldToCell(transform.position);
         transform.position = Game.manager.unitGrid.GetCellCenterWorld(cellPosition);
 
+        // TODO: not working when called at this point for some reason,
+        // hopefully switching over to use collision mesh will fix it.
         // Refresh positions that this can move to.
         if (gridBox != null) RefreshGridBoxes();
 
@@ -164,13 +178,19 @@ public class Unit : MonoBehaviour
 
     }
 
-    public Enemy GetEnemyUnit(Vector2Int cellPosition)
+    public Unit GetEnemyUnit(Vector2Int cellPosition)
     {
 
         Vector3 cellCenterWorldPosition = Game.manager.unitGrid.GetCellCenterWorld((Vector3Int)cellPosition);
         Collider2D hit = Physics2D.OverlapPoint(cellCenterWorldPosition);
-        Enemy enemyUnit = null;
-        if (hit != null) enemyUnit = hit.gameObject.transform.parent.GetComponent<Enemy>();
+        Unit enemyUnit = null;
+        if (hit != null)
+        {
+
+            if (this is Player) enemyUnit = hit.gameObject.transform.parent.GetComponent<Enemy>();
+            if (this is Enemy) enemyUnit = hit.gameObject.transform.parent.GetComponent<Player>();
+
+        }
         return enemyUnit;
 
     }
@@ -227,14 +247,14 @@ public class Unit : MonoBehaviour
         {
 
             spriteAnimator.SetTrigger("attack-vertical");
-            attackAnimator.SetTrigger("slash-vertical");
+            if (attackAnimator != null) attackAnimator.SetTrigger("slash-vertical");
 
         }
         else
         {
 
             spriteAnimator.SetTrigger("attack-horizontal");
-            attackAnimator.SetTrigger("slash-horizontal");
+            if (attackAnimator != null) attackAnimator.SetTrigger("slash-horizontal");
 
         }
 
@@ -247,7 +267,7 @@ public class Unit : MonoBehaviour
 
     }
 
-    public IEnumerator FaintAnimation()
+    public virtual IEnumerator FaintAnimation()
     {
 
         yield return new WaitForSeconds(0.4f);
@@ -260,6 +280,12 @@ public class Unit : MonoBehaviour
 
     }
 
+    public bool SolidTileIsHere(Vector3 worldPosition)
+    {
+
+        return CheckforTileProperty("isSolid", worldPosition);
+
+    }
 
     /**
      * TODO: tried using boxcolliders, can't get that to work. Ideally get that working at some point.
@@ -267,14 +293,14 @@ public class Unit : MonoBehaviour
      *  - might have to do with the isTrigger variable in the collider?
      *  - or maybe the SuperTiled2Unity collision meshes / colliders are different than a boxcollider2d
      */
-    public bool SolidTileIsHere(Vector3 worldPosition)
+    public bool CheckforTileProperty(string propertyName, Vector3 worldPosition)
     {
 
         Vector2Int[] collisionOffsets = new Vector2Int[] { Vector2Int.zero, Vector2Int.right, new Vector2Int(1, 1), Vector2Int.up };
 
         // There is probably a better way to do this but there's no documentation that I can find.
         SuperTiled2Unity.CustomProperty isSolid = new SuperTiled2Unity.CustomProperty();
-        isSolid.m_Name = "isSolid";
+        isSolid.m_Name = propertyName;
         isSolid.m_Type = "bool";
         isSolid.m_Value = "true";
 
@@ -290,7 +316,9 @@ public class Unit : MonoBehaviour
 
                 foreach (CustomProperty property in superTile.m_CustomProperties)
                 {
+
                     if (property.m_Name.Equals(isSolid.m_Name) && property.m_Value.Equals(isSolid.m_Value)) return true;
+
                 }
 
             }
@@ -325,6 +353,16 @@ public class Unit : MonoBehaviour
         spriteObject.transform.eulerAngles = new Vector3(xRotationAmount, yRotationAmount, 0f);
         spriteObject.transform.Rotate(xRotationAmount, 0f, 0f);
 
+        // Adjust the status icon so that it's not rotated at all.
+        if (statusIconsObject != null)
+        {
+
+            statusIconsObject.transform.eulerAngles = new Vector3(xRotationAmount, yRotationAmount, 0f);
+            statusIconsObject.transform.Rotate(xRotationAmount, 0f, 0f);
+            //statusIconsObject.transform.Rotate(0f, -yRotationAmount, 0f);
+
+        }
+
     }
 
     /**
@@ -351,6 +389,16 @@ public class Unit : MonoBehaviour
         spriteObject.transform.eulerAngles = new Vector3(0f, yRotationAmount, zRotationAmount);
         spriteObject.transform.Rotate(0f, 0f, -zRotationAmount);
 
+        // Adjust the status icon so that it's not rotated at all.
+        if (statusIconsObject != null)
+        {
+
+            statusIconsObject.transform.eulerAngles = new Vector3(0f, yRotationAmount, zRotationAmount);
+            statusIconsObject.transform.Rotate(0f, 0f, -zRotationAmount);
+            statusIconsObject.transform.Rotate(0f, -yRotationAmount, 0f);
+
+        }
+
     }
 
     /**
@@ -363,12 +411,14 @@ public class Unit : MonoBehaviour
         List<Vector2Int> allCells = new List<Vector2Int>();
         Queue<Vector2Int> checkThese = new Queue<Vector2Int>();
         Dictionary<Vector2Int, Vector2Int?> prevTiles = new Dictionary<Vector2Int, Vector2Int?>();
+        Dictionary<Vector2Int, int> distances = new Dictionary<Vector2Int, int>();
 
         Vector2Int pos = new Vector2Int(origin.x, origin.y);
         Vector2Int newPos;
 
         checkThese.Enqueue(pos);
         prevTiles.Add(pos, null);
+        distances.Add(pos, 0);
 
         Vector2Int[] offsets = new Vector2Int[] { Vector2Int.left, Vector2Int.right, Vector2Int.down, Vector2Int.up };
 
@@ -382,9 +432,14 @@ public class Unit : MonoBehaviour
 
                 newPos = pos + offset;
 
+                // Don't allow BFS to go offscreen.
+                if (newPos.x < 0 || newPos.y < -16 || newPos.x > 15 || newPos.y > -1) continue;
+
                 // TODO: use a distance map instead
                 // Check that the tile isn't too far away.
-                if (Mathf.Abs(newPos.y - origin.y) + Mathf.Abs(newPos.x - origin.x) >= maxDistance) continue;
+                int distance = distances[pos] + 1;
+                // if (Mathf.Abs(newPos.y - origin.y) + Mathf.Abs(newPos.x - origin.x) >= maxDistance) continue;  // TODO: remove
+                if (distance >= maxDistance) continue;
 
                 // Check for Enemies or Allies at this position.
                 Vector3 cellCenterWorldPosition = Game.manager.unitGrid.GetCellCenterWorld((Vector3Int)newPos);
@@ -392,9 +447,11 @@ public class Unit : MonoBehaviour
                 if (hit != null)
                 {
 
-                    // Do not allow pathing through an Ally.
+                    // Allies can't path through allies.
                     Player allyUnit = hit.gameObject.transform.parent.GetComponent<Player>();
-                    if (allyUnit != null) continue;
+                    if (this is Player && allyUnit != null) continue;
+                    Enemy enemyUnit = hit.gameObject.transform.parent.GetComponent<Enemy>();
+                    if (this is Enemy && enemyUnit != null) continue;
 
                 }
 
@@ -407,6 +464,7 @@ public class Unit : MonoBehaviour
 
                     allCells.Add(newPos);
                     prevTiles.Add(newPos, pos);
+                    distances.Add(newPos, distance);
                     if (GetEnemyUnit(newPos) == null) checkThese.Enqueue(newPos);
 
                 }
@@ -431,6 +489,10 @@ public class Unit : MonoBehaviour
             }
 
         }
+
+        // If there is a target position and was unable to get to it,
+        // signal a path wasn't found by returning an empty List.
+        if (target != null) allCells.Clear();
 
         return allCells;
 

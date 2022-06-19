@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Enemy : Unit
 {
+
+    public Player aggroAlly;
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -15,6 +18,16 @@ public class Enemy : Unit
     {
 
         base.Update();
+
+    }
+
+    public override IEnumerator FaintAnimation()
+    {
+
+        // Update existing enemies.
+        Game.manager.enemies.Remove(this);
+
+        yield return StartCoroutine(base.FaintAnimation());
 
     }
 }
