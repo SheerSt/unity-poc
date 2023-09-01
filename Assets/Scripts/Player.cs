@@ -136,6 +136,15 @@ public class Player : Unit
         {
 
             yield return StartCoroutine(Game.manager.GotoNextLevel());
+
+            foreach (Player player in Game.manager.players)
+            {
+
+                player.hasMoved = false;
+                player.RefreshGridBoxes();
+
+            }
+            Game.manager.aPlayerIsMoving = false;
             yield break;
 
         }

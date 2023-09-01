@@ -60,11 +60,12 @@ MonoBehaviour:
   overlay: {fileID: 0}
   levels:
   - name: Forest1
-    nextLevel: Forest1
+    nextLevel: Forest2
   - name: Forest2
-    nextLevel: Forest3
+    nextLevel: Forest1
   - name: Forest3
     nextLevel: Mountain1
+  tiledMap: {fileID: 0}
 --- !u!82 &2259342273030208025
 AudioSource:
   m_ObjectHideFlags: 0

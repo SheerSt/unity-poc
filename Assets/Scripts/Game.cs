@@ -49,7 +49,7 @@ public class Game : MonoBehaviour
         // Keeps this from getting destroyed during code swap.
         DontDestroyOnLoad(gameObject);
 
-        currentLevel = levels[0];
+        currentLevel = levels[1];
 
         foreach (AudioClip audioClip in audioClips) audioClipsDict.Add(audioClip.name, audioClip);
 

@@ -117,4 +117,30 @@ MonoBehaviour:
       m_SpriteOverride: {fileID: 1137087618, guid: a7f8a2b1ffa11b842a38b7775e28c1f0, type: 3}
     m_FromMain: 0
     m_EntryOverrideCount: 4
+  - m_Name: Rampardos
+    m_Hash: 1182596967
+    m_CategoryList: []
+    m_OverrideEntries:
+    - m_Name: idle0
+      m_Hash: -1713758337
+      m_Sprite: {fileID: -241707579, guid: d95309f78004a7843b38a2e14b13a803, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -241707579, guid: d95309f78004a7843b38a2e14b13a803, type: 3}
+    - m_Name: idle1
+      m_Hash: -287494167
+      m_Sprite: {fileID: 1624593643, guid: d95309f78004a7843b38a2e14b13a803, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: 1624593643, guid: d95309f78004a7843b38a2e14b13a803, type: 3}
+    - m_Name: walk0
+      m_Hash: -279450848
+      m_Sprite: {fileID: -1988648239, guid: d95309f78004a7843b38a2e14b13a803, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1988648239, guid: d95309f78004a7843b38a2e14b13a803, type: 3}
+    - m_Name: walk1
+      m_Hash: -1739531338
+      m_Sprite: {fileID: -1283126497, guid: d95309f78004a7843b38a2e14b13a803, type: 3}
+      m_FromMain: 0
+      m_SpriteOverride: {fileID: -1283126497, guid: d95309f78004a7843b38a2e14b13a803, type: 3}
+    m_FromMain: 0
+    m_EntryOverrideCount: 4
   m_PrimaryLibraryGUID: 
